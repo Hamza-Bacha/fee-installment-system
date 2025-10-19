@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Fee Installment System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+        }
+
+        .mobile-container {
+            width: 375px;
+            background: #fff;
+            border-radius: 0px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .dashboard {
+            padding: 20px;
+        }
+
+        .welcome-section {
+            margin-bottom: 20px;
+        }
+
+        .welcome-section h2 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .welcome-section p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .fee-summary-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 25px;
+            color: white;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .fee-summary-card h3 {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .fee-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .fee-item {
+            text-align: center;
+        }
+
+        .fee-item .label {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .fee-item .amount {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            background: white;
+            height: 100%;
+            width: 65%;
+            border-radius: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 10px;
+            background: rgba(255,255,255,0.2);
+        }
+
+        .status-badge.verified {
+            background: #4CAF50;
+        }
+
+        .status-badge.pending {
+            background: #FF9800;
+        }
+
+        .quick-actions {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .action-button {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .action-button .icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .action-button .text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .action-button:hover .text {
+            color: white;
+        }
+
+        .recent-payments {
+            margin-bottom: 20px;
+        }
+
+        .payment-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .payment-info {
+            flex: 1;
+        }
+
+        .payment-info .date {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .payment-info .amount {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .payment-info .transaction-id {
+            font-size: 11px;
+            color: #999;
+            margin-top: 3px;
+        }
+
+        .exam-slip-section {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .exam-slip-section h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .exam-slip-section p {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .download-btn {
+            background: white;
+            color: #FF6B6B;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .download-btn:disabled {
+            background: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .nav-item {
+            text-align: center;
+            cursor: pointer;
+            padding: 5px 15px;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: #667eea;
+        }
+
+        .nav-item .icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .nav-item .label {
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Fee Management System</h1>
+            <p>Automated Installment & Verification</p>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard">
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h2>Welcome, Ahmad!</h2>
+                <p>Student ID: FA21-BCS-045</p>
+            </div>
+
+            <!-- Fee Summary Card -->
+            <div class="fee-summary-card">
+                <h3>Payment Summary</h3>
+                <div class="fee-details">
+                    <div class="fee-item">
+                        <div class="label">Total Fee</div>
+                        <div class="amount">150K</div>
+                    </div>
+                    <div class="fee-item">
+                        <div class="label">Paid</div>
+                        <div class="amount">97.5K</div>
+                    </div>
+                    <div class="fee-item">
+                        <div class="label">Remaining</div>
+                        <div class="amount">52.5K</div>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <span class="status-badge verified">2 Installments Verified</span>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h3 class="section-title">Quick Actions</h3>
+                <div class="action-grid">
+                    <div class="action-button">
+                        <div class="icon">📤</div>
+                        <div class="text">Upload Payment</div>
+                    </div>
+                    <div class="action-button">
+                        <div class="icon">📊</div>
+                        <div class="text">View History</div>
+                    </div>
+                    <div class="action-button">
+                        <div class="icon">📝</div>
+                        <div class="text">Teacher Survey</div>
+                    </div>
+                    <div class="action-button">
+                        <div class="icon">💳</div>
+                        <div class="text">Fee Structure</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exam Slip Section -->
+            <div class="exam-slip-section">
+                <h3>📄 Exam Admission Slip</h3>
+                <p>Complete payment & teacher evaluation to download</p>
+                <button class="download-btn" disabled>Download Slip</button>
+            </div>
+
+            <!-- Recent Payments -->
+            <div class="recent-payments">
+                <h3 class="section-title">Recent Payments</h3>
+                <div class="payment-item">
+                    <div class="payment-info">
+                        <div class="date">Oct 10, 2025</div>
+                        <div class="amount">PKR 25,000</div>
+                        <div class="transaction-id">TXN: ABC123456789</div>
+                    </div>
+                    <span class="status-badge verified">Verified</span>
+                </div>
+                <div class="payment-item">
+                    <div class="payment-info">
+                        <div class="date">Sep 15, 2025</div>
+                        <div class="amount">PKR 25,000</div>
+                        <div class="transaction-id">TXN: DEF987654321</div>
+                    </div>
+                    <span class="status-badge pending">Pending</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item active">
+                <div class="icon">🏠</div>
+                <div class="label">Home</div>
+            </div>
+            <div class="nav-item">
+                <div class="icon">💰</div>
+                <div class="label">Payments</div>
+            </div>
+            <div class="nav-item">
+                <div class="icon">🔔</div>
+                <div class="label">Notifications</div>
+            </div>
+            <div class="nav-item">
+                <div class="icon">👤</div>
+                <div class="label">Profile</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
